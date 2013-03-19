@@ -1,0 +1,10 @@
+all:
+#Build the CPU check library
+	javah -classpath bin/ -jni -o src/native/cpuIdDetect.h simdMapper.cpuIdDetect
+	gcc -O3 -ffast-math -march=native -mtune=native -msse4.1 -fPIC -c -msse -I "C:\Arquivos de Programas\Java\jdk1.6.0_25\include" -I "C:\Arquivos de Programas\Java\jdk1.6.0_25\include" -o lib/simdMapper.o src/native/cpuIdDetect.c
+	gcc -Wl,--add-stdcall-alias -O3 -ffast-math -march=native -mtune=native -msse4.1 -fPIC -mno-cygwin -shared -o lib/cpuIdLib.dll lib/simdMapper.o
+
+#Build the mapping library
+	javah -classpath bin/ -jni -o src/native/NativeLibrary.h simdMapper.NativeLibrary
+	gcc -O3 -ffast-math -march=native -mtune=native -msse4.1 -fPIC -c -msse -I "C:\Arquivos de Programas\Java\jdk1.6.0_25\include" -I "C:\Arquivos de Programas\Java\jdk1.6.0_25\include" -o lib/NativeLibrary.o src/native/NativeLibrary.c
+	gcc -Wl,--add-stdcall-alias -O3 -ffast-math -march=native -mtune=native -msse4.1 -fPIC -mno-cygwin -shared -o lib/NativeLibrary.dll lib/NativeLibrary.o -lpthread

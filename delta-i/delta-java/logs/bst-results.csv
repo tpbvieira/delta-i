@@ -1,0 +1,252 @@
+SLOW_POINT=1, SLEEP_TIME=0
+### mutant schemata
+time: 2 (milis)
+### delta
+Could not load property file
+time: 77 (milis)
+SLOW_POINT=1, SLEEP_TIME=1
+### mutant schemata
+time: 1695 (milis)
+### delta
+Could not load property file
+time: 386 (milis)
+SLOW_POINT=1, SLEEP_TIME=2
+### mutant schemata
+time: 3225 (milis)
+### delta
+Could not load property file
+time: 689 (milis)
+SLOW_POINT=1, SLEEP_TIME=3
+### mutant schemata
+time: 4783 (milis)
+### delta
+Could not load property file
+time: 969 (milis)
+SLOW_POINT=1, SLEEP_TIME=4
+### mutant schemata
+time: 6323 (milis)
+### delta
+Could not load property file
+time: 1265 (milis)
+SLOW_POINT=1, SLEEP_TIME=5
+### mutant schemata
+time: 7868 (milis)
+### delta
+Could not load property file
+time: 1532 (milis)
+SLOW_POINT=2, SLEEP_TIME=0
+### mutant schemata
+time: 2 (milis)
+### delta
+Could not load property file
+time: 77 (milis)
+SLOW_POINT=2, SLEEP_TIME=1
+### mutant schemata
+time: 1336 (milis)
+### delta
+Could not load property file
+time: 358 (milis)
+SLOW_POINT=2, SLEEP_TIME=2
+### mutant schemata
+time: 2555 (milis)
+### delta
+Could not load property file
+time: 617 (milis)
+SLOW_POINT=2, SLEEP_TIME=3
+### mutant schemata
+time: 3789 (milis)
+### delta
+Could not load property file
+time: 874 (milis)
+SLOW_POINT=2, SLEEP_TIME=4
+### mutant schemata
+time: 5018 (milis)
+### delta
+Could not load property file
+time: 1116 (milis)
+SLOW_POINT=2, SLEEP_TIME=5
+### mutant schemata
+time: 6252 (milis)
+### delta
+Could not load property file
+time: 1368 (milis)
+SLOW_POINT=3, SLEEP_TIME=0
+### mutant schemata
+time: 2 (milis)
+### delta
+Could not load property file
+time: 107 (milis)
+SLOW_POINT=3, SLEEP_TIME=1
+### mutant schemata
+time: 168 (milis)
+### delta
+Could not load property file
+time: 125 (milis)
+SLOW_POINT=3, SLEEP_TIME=2
+### mutant schemata
+time: 297 (milis)
+### delta
+Could not load property file
+time: 169 (milis)
+SLOW_POINT=3, SLEEP_TIME=3
+### mutant schemata
+time: 443 (milis)
+### delta
+Could not load property file
+time: 212 (milis)
+SLOW_POINT=3, SLEEP_TIME=4
+### mutant schemata
+time: 582 (milis)
+### delta
+Could not load property file
+time: 266 (milis)
+SLOW_POINT=3, SLEEP_TIME=5
+### mutant schemata
+time: 726 (milis)
+### delta
+Could not load property file
+time: 316 (milis)
+SLOW_POINT=4, SLEEP_TIME=0
+### mutant schemata
+time: 3 (milis)
+### delta
+Could not load property file
+time: 75 (milis)
+SLOW_POINT=4, SLEEP_TIME=1
+### mutant schemata
+time: 1222 (milis)
+### delta
+Could not load property file
+time: 298 (milis)
+SLOW_POINT=4, SLEEP_TIME=2
+### mutant schemata
+time: 2269 (milis)
+### delta
+Could not load property file
+time: 524 (milis)
+SLOW_POINT=4, SLEEP_TIME=3
+### mutant schemata
+time: 3353 (milis)
+### delta
+Could not load property file
+time: 724 (milis)
+SLOW_POINT=4, SLEEP_TIME=4
+### mutant schemata
+time: 4446 (milis)
+### delta
+Could not load property file
+time: 942 (milis)
+SLOW_POINT=4, SLEEP_TIME=5
+### mutant schemata
+time: 5531 (milis)
+### delta
+Could not load property file
+time: 1165 (milis)
+SLOW_POINT=5, SLEEP_TIME=0
+### mutant schemata
+time: 1 (milis)
+### delta
+Could not load property file
+time: 69 (milis)
+SLOW_POINT=5, SLEEP_TIME=1
+### mutant schemata
+time: 293 (milis)
+### delta
+Could not load property file
+time: 89 (milis)
+SLOW_POINT=5, SLEEP_TIME=2
+### mutant schemata
+time: 552 (milis)
+### delta
+Could not load property file
+time: 95 (milis)
+SLOW_POINT=5, SLEEP_TIME=3
+### mutant schemata
+time: 819 (milis)
+### delta
+Could not load property file
+time: 140 (milis)
+SLOW_POINT=5, SLEEP_TIME=4
+### mutant schemata
+time: 1092 (milis)
+### delta
+Could not load property file
+time: 91 (milis)
+SLOW_POINT=5, SLEEP_TIME=5
+### mutant schemata
+time: 1348 (milis)
+### delta
+Could not load property file
+time: 101 (milis)
+SLOW_POINT=6, SLEEP_TIME=0
+### mutant schemata
+time: 2 (milis)
+### delta
+Could not load property file
+time: 86 (milis)
+SLOW_POINT=6, SLEEP_TIME=1
+### mutant schemata
+time: 75 (milis)
+### delta
+Could not load property file
+time: 88 (milis)
+SLOW_POINT=6, SLEEP_TIME=2
+### mutant schemata
+time: 147 (milis)
+### delta
+Could not load property file
+time: 99 (milis)
+SLOW_POINT=6, SLEEP_TIME=3
+### mutant schemata
+time: 214 (milis)
+### delta
+Could not load property file
+time: 111 (milis)
+SLOW_POINT=6, SLEEP_TIME=4
+### mutant schemata
+time: 299 (milis)
+### delta
+Could not load property file
+time: 113 (milis)
+SLOW_POINT=6, SLEEP_TIME=5
+### mutant schemata
+time: 352 (milis)
+### delta
+Could not load property file
+time: 120 (milis)
+SLOW_POINT=7, SLEEP_TIME=0
+### mutant schemata
+time: 1 (milis)
+### delta
+Could not load property file
+time: 119 (milis)
+SLOW_POINT=7, SLEEP_TIME=1
+### mutant schemata
+time: 221 (milis)
+### delta
+Could not load property file
+time: 78 (milis)
+SLOW_POINT=7, SLEEP_TIME=2
+### mutant schemata
+time: 411 (milis)
+### delta
+Could not load property file
+time: 77 (milis)
+SLOW_POINT=7, SLEEP_TIME=3
+### mutant schemata
+time: 626 (milis)
+### delta
+Could not load property file
+time: 86 (milis)
+SLOW_POINT=7, SLEEP_TIME=4
+### mutant schemata
+time: 804 (milis)
+### delta
+Could not load property file
+time: 77 (milis)
+SLOW_POINT=7, SLEEP_TIME=5
+### mutant schemata
+time: 1001 (milis)
+### delta
+Could not load property file
+time: 77 (milis)

@@ -1,0 +1,11 @@
+all:
+#Build the CPU check library
+	javah -classpath bin/ -jni -o src/native/cpuIdDetect.h simdMapper.cpuIdDetect
+	gcc -O3 -ffast-math -march=native -mtune=native -mfpmath=both -msse4.2 -fPIC -c -I "$(JAVA_HOME)/include" -I "$(JAVA_HOME)/include/linux" -o lib/simdMapper.o src/native/cpuIdDetect.c
+	gcc -O3 -ffast-math -march=native -mtune=native -mfpmath=both -msse4.2 -fPIC -shared -o lib/cpuIdLib.so lib/simdMapper.o
+
+
+#Build the mapping library
+	javah -classpath bin/ -jni -o src/native/NativeLibrary.h simdMapper.NativeLibrary
+	gcc -O3 -ffast-math -march=native -mtune=native -mfpmath=both -msse4.2 -fPIC -c -I "$(JAVA_HOME)/include" -I "$(JAVA_HOME)/include/linux" -o lib/NativeLibrary.o src/native/NativeLibrary.c
+	gcc -O3 -ffast-math -march=native -mtune=native -mfpmath=both -msse4.2 -fPIC -shared -o lib/NativeLibrary.so lib/NativeLibrary.o

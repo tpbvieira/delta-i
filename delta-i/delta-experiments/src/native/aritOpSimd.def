@@ -1,0 +1,4 @@
+;FILE: aritOpSimd.def
+EXPORTS
+Java_simdMapper_simdArithmatic_addIntegers
+Java_simdMapper_simdArithmatic_multIntegers

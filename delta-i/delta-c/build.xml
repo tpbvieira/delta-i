@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<project name="delta-i" default="compile" basedir=".">
+
+	<property name="src" value="src" />
+	<property name="build" value="bin" />
+	<property name="lib" value="lib" />
+
+	<target name="init">
+		<mkdir dir="${build}" />
+		<mkdir dir="${lib}" />
+	</target>	
+
+	<target name="compile" depends="init">
+		<javac srcdir="${src}" destdir="${build}" />
+			<exec executable="make">
+		</exec>
+	</target>
+</project>

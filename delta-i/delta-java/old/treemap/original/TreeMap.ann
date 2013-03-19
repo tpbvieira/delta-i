@@ -1,0 +1,367 @@
+package symexamples.treemap.original/*${PACKAGE}*/;
+
+/*${INSERT_IMPORTS}*/
+
+import symexamples.integer.original.Comparable/*${ADJUST_IMPORT}*/;
+import symexamples.integer.original.Integer/*${ADJUST_IMPORT}*/;
+
+/***********************************************************
+ *  TreeMap class
+ ***********************************************************/
+public class TreeMap/*${IMPLEMENTS}*/ {
+
+    static final int/*${INTTYPE}*/ RED   = 0/*${INT_CONSTANT}*/; // false, originally
+    static final int/*${INTTYPE}*/ BLACK = 1/*${INT_CONSTANT}*/; // true
+
+    private transient Entry/*${REFTYPE}*/ root = null/*${REF_CONSTANT}Entry*/;
+    private transient int/*${INTTYPE}*/ size = 0/*${INT_CONSTANT}*/;
+
+
+/*${INSERT_SPECIAL_CONSTRUCTOR}*/
+
+    /*** constructor ***/
+    public TreeMap() {}
+
+
+    /*******************************************************/
+    private void incrementSize() {
+        size/*${SET}*/ = size/*${GET}*/ +/*${ADD}*/ 1;
+    }
+
+    /*******************************************************/
+    private void decrementSize() {
+        size/*${SET}*/ = size/*${GET}*/ -/*${SUB}*/ 1;
+    }
+
+    /*******************************************************/
+    private Entry/*${REFTYPE}*/ getEntry( Integer/*${REFTYPE}*/ key ) {
+        Entry/*${REFTYPE}*/ p = root/*${GET}*/;
+        while (p != null/*${ISNOTNULL}*/) {
+            int/*${INTTYPE}*/ cmp = compare(key, p.key/*${GET}*/);
+            if (cmp ==/*${EQ}*/ 0)
+                return p;
+            else if (cmp </*${LT}*/ 0)
+                p = p.left/*${GET}*/;
+            else
+                p = p.right/*${GET}*/;
+        }
+        return null/*${REF_CONSTANT}Entry*/;
+    }
+
+    /*******************************************************/
+    public Object/*${REFTYPE}*/ put( Integer/*${REFTYPE}*/ key, Object/*${REFTYPE}*/ value ) {
+        Entry/*${REFTYPE}*/ t = root/*${GET}*/;
+
+        if (t == null/*${ISNULL}*/) {
+            incrementSize();
+            root/*${SET}*/ = new Entry(key, value, null/*${REF_CONSTANT}Entry*/)/*${REF_CONSTANT}Entry*/;
+            return null/*${REF_CONSTANT}Object*/;
+       }
+
+        while (true) {
+            int/*${INTTYPE}*/ cmp = compare(key, t.key/*${GET}*/);
+            if (cmp ==/*${EQ}*/ 0) {
+                return t.setValue(value);
+            } else if (cmp </*${LT}*/ 0) {
+                if (t.left/*${GET}*/ != null/*${ISNOTNULL}*/) {
+                    t = t.left/*${GET}*/;
+                } else {
+                    incrementSize();
+                    t.left/*${SET}*/ = new Entry(key, value, t)/*${REF_CONSTANT}Entry*/;
+                    fixAfterInsertion(t.left/*${GET}*/);
+                    return null/*${REF_CONSTANT}Object*/;
+                }
+            } else { // cmp > 0
+                if (t.right/*${GET}*/ != null/*${ISNOTNULL}*/) {
+                    t = t.right/*${GET}*/;
+                } else {
+                    incrementSize();
+                    t.right/*${SET}*/ = new Entry(key, value, t)/*${REF_CONSTANT}Entry*/;
+                    fixAfterInsertion(t.right/*${GET}*/);
+                    return null/*${REF_CONSTANT}Object*/;
+                }
+            }
+        }
+    }
+
+    /*******************************************************/
+    public Object/*${REFTYPE}*/ remove( Integer/*${REFTYPE}*/ key ) {
+        Entry/*${REFTYPE}*/ p = getEntry(key);
+        if (p == null/*${ISNULL}*/)
+            return null/*${REF_CONSTANT}Object*/;
+
+        Object/*${REFTYPE}*/ oldValue = p.getValue();
+        deleteEntry(p);
+        return oldValue;
+    }
+
+    /*******************************************************/
+    private int/*${INTTYPE}*/ compare( Integer/*${REFTYPE}*/ k1, Integer/*${REFTYPE}*/ k2 ) {
+        return ((Comparable)k1).compareTo(k2);
+    }
+
+    /*******************************************************/
+    private Entry/*${REFTYPE}*/ successor( Entry/*${REFTYPE}*/ t ) {
+        if (t == null/*${ISNULL}*/)
+            return null/*${REF_CONSTANT}Entry*/;
+        else if (t.right/*${GET}*/ != null/*${ISNOTNULL}*/) {
+            Entry/*${REFTYPE}*/ p = t.right/*${GET}*/;
+            while (p.left/*${GET}*/ != null/*${ISNOTNULL}*/)
+                p = p.left/*${GET}*/;
+            return p;
+        } else {
+            Entry/*${REFTYPE}*/ p = t.parent/*${GET}*/;
+            Entry/*${REFTYPE}*/ ch = t;
+            while (p != null/*${ISNOTNULL}*/ && ch ==/*${EQ}*/ p.right/*${GET}*/) {
+                ch = p;
+                p = p.parent/*${GET}*/;
+            }
+            return p;
+        }
+    }
+
+    /*******************************************************/
+    private static int/*${INTTYPE}*/ colorOf( Entry/*${REFTYPE}*/ p ) {
+        return (p == null/*${ISNULL}*/ ? BLACK : p.color/*${GET}*/);
+    }
+
+    /*******************************************************/
+    private static Entry/*${REFTYPE}*/  parentOf( Entry/*${REFTYPE}*/ p ) {
+        return (p == null/*${ISNULL}*/ ? null/*${REF_CONSTANT}Entry*/ : p.parent/*${GET}*/);
+    }
+
+    /*******************************************************/
+    private static void setColor( Entry/*${REFTYPE}*/ p, int/*${INTTYPE}*/ c ) {
+        if (p != null/*${ISNOTNULL}*/) {
+            p.color/*${SET}*/ = c;
+        }
+    }
+
+    /*******************************************************/
+    private static Entry/*${REFTYPE}*/  leftOf( Entry/*${REFTYPE}*/ p ) {
+        return (p == null/*${ISNULL}*/) ? null/*${REF_CONSTANT}Entry*/ : p.left/*${GET}*/;
+    }
+
+    /*******************************************************/
+    private static Entry/*${REFTYPE}*/  rightOf( Entry/*${REFTYPE}*/ p ) {
+        return (p == null/*${ISNULL}*/) ? null/*${REF_CONSTANT}Entry*/ : p.right/*${GET}*/;
+    }
+
+    /*******************************************************/
+    /** From CLR **/
+    private void rotateLeft( Entry/*${REFTYPE}*/ p ) {
+        Entry/*${REFTYPE}*/ r = p.right/*${GET}*/;
+        p.right/*${SET}*/ = r.left/*${GET}*/;
+
+        if (r.left/*${GET}*/ != null/*${ISNOTNULL}*/) {
+            r.left/*${GET}*/.parent/*${SET}*/ = p;
+        }
+
+        r.parent/*${SET}*/ = p.parent/*${GET}*/;
+
+        if (p.parent/*${GET}*/ == null/*${ISNULL}*/) {
+            root/*${SET}*/ = r;
+        } else if (p.parent/*${GET}*/.left/*${GET}*/ ==/*${EQ}*/ p) {
+            p.parent/*${GET}*/.left/*${SET}*/ = r;
+        } else {
+            p.parent/*${GET}*/.right/*${SET}*/ = r;
+        }
+
+        r.left/*${SET}*/ = p;
+        p.parent/*${SET}*/ = r;
+    }
+
+    /*******************************************************/
+    /** From CLR **/
+    private void rotateRight( Entry/*${REFTYPE}*/ p ) {
+        Entry/*${REFTYPE}*/ l = p.left/*${GET}*/;
+        p.left/*${SET}*/ = l.right/*${GET}*/;
+
+        if (l.right/*${GET}*/ != null/*${ISNOTNULL}*/) {
+            l.right/*${GET}*/.parent/*${SET}*/ = p;
+        }
+
+        l.parent/*${SET}*/ = p.parent/*${GET}*/;
+
+        if (p.parent/*${GET}*/ == null/*${ISNULL}*/) {
+            root/*${SET}*/ = l;
+        } else if (p.parent/*${GET}*/.right/*${GET}*/ ==/*${EQ}*/ p) {
+            p.parent/*${GET}*/.right/*${SET}*/ = l;
+        } else {
+            p.parent/*${GET}*/.left/*${SET}*/ = l;
+        }
+
+        l.right/*${SET}*/ = p;
+        p.parent/*${SET}*/ = l;
+    }
+
+    /*******************************************************/
+    /** From CLR **/
+    private void fixAfterInsertion( Entry/*${REFTYPE}*/ x ) {
+        x.color/*${SET}*/ = RED;
+
+        while (x != null/*${ISNOTNULL}*/ && x !=/*${NEQ}*/ root/*${GET}*/ && x.parent/*${GET}*/.color/*${GET}*/ ==/*${EQ}*/ RED) {
+            if (parentOf(x) ==/*${EQ}*/ leftOf(parentOf(parentOf(x)))) {
+                Entry/*${REFTYPE}*/ y = rightOf(parentOf(parentOf(x)));
+                if (colorOf(y) ==/*${EQ}*/ RED) {
+                    setColor(parentOf(x), BLACK);
+                    setColor(y, BLACK);
+                    setColor(parentOf(parentOf(x)), RED);
+                    x = parentOf(parentOf(x));
+                } else {
+                    if (x ==/*${EQ}*/ rightOf(parentOf(x))) {
+                        x = parentOf(x);
+                        rotateLeft(x);
+                    }
+                    setColor(parentOf(x), BLACK);
+                    setColor(parentOf(parentOf(x)), RED);
+                    if (parentOf(parentOf(x)) != null/*${ISNOTNULL}*/)
+                        rotateRight(parentOf(parentOf(x)));
+                }
+            } else {
+                Entry/*${REFTYPE}*/ y = leftOf(parentOf(parentOf(x)));
+                if (colorOf(y) ==/*${EQ}*/ RED) {
+                    setColor(parentOf(x), BLACK);
+                    setColor(y, BLACK);
+                    setColor(parentOf(parentOf(x)), RED);
+                    x = parentOf(parentOf(x));
+                } else {
+                    if (x ==/*${EQ}*/ leftOf(parentOf(x))) {
+                        x = parentOf(x);
+                        rotateRight(x);
+                    }
+                    setColor(parentOf(x),  BLACK);
+                    setColor(parentOf(parentOf(x)), RED);
+                    if (parentOf(parentOf(x)) != null/*${ISNOTNULL}*/)
+                        rotateLeft(parentOf(parentOf(x)));
+                }
+            }
+        }
+        root/*${GET}*/.color/*${SET}*/ = BLACK;
+    }
+
+    /*******************************************************
+     * Delete node p, and then rebalance the tree.
+     *******************************************************/
+    private void deleteEntry( Entry/*${REFTYPE}*/ p ) {
+        decrementSize();
+
+        // If strictly internal, copy successor's element to p and then make p
+        // point to successor.
+        if (p.left/*${GET}*/ != null/*${ISNOTNULL}*/ && p.right/*${GET}*/ != null/*${ISNOTNULL}*/) {
+            Entry/*${REFTYPE}*/ s = successor (p);
+            p.key/*${SET}*/ = s.key/*${GET}*/;
+            p.setValue(s.getValue());
+            p = s;
+        } // p has 2 children
+
+        // Start fixup at replacement node, if it exists.
+        Entry/*${REFTYPE}*/ replacement = (p.left/*${GET}*/ != null/*${ISNOTNULL}*/ ? p.left/*${GET}*/ : p.right/*${GET}*/);
+
+        if (replacement != null/*${ISNOTNULL}*/) {
+            // Link replacement to parent
+            replacement.parent/*${SET}*/ = p.parent/*${GET}*/;
+            if (p.parent/*${GET}*/ == null/*${ISNULL}*/) {
+                root/*${SET}*/ = replacement;
+            }
+            else if (p ==/*${EQ}*/ p.parent/*${GET}*/.left/*${GET}*/) {
+                p.parent/*${GET}*/.left/*${SET}*/ = replacement;
+            }
+            else {
+                p.parent/*${GET}*/.right/*${SET}*/ = replacement;
+            }
+
+            // Null out links so they are OK to use by fixAfterDeletion.
+            p.left/*${SET}*/ = null/*${REF_CONSTANT}Entry*/;
+            p.right/*${SET}*/ = null/*${REF_CONSTANT}Entry*/;
+            p.parent/*${SET}*/ = null/*${REF_CONSTANT}Entry*/;
+
+            // Fix replacement
+            if (p.color/*${GET}*/ ==/*${EQ}*/ BLACK) {
+                fixAfterDeletion(replacement);
+            }
+        } else if (p.parent/*${GET}*/ == null/*${ISNULL}*/) { // return if we are the only node.
+            root/*${SET}*/ = null/*${REF_CONSTANT}Entry*/;
+        } else { //  No children. Use self as phantom replacement and unlink.
+            if (p.color/*${GET}*/ ==/*${EQ}*/ BLACK) {
+                fixAfterDeletion(p);
+            }
+            if (p.parent/*${GET}*/ != null/*${ISNOTNULL}*/) {
+                if (p ==/*${EQ}*/ p.parent/*${GET}*/.left/*${GET}*/) {
+                    p.parent/*${GET}*/.left/*${SET}*/ = null/*${REF_CONSTANT}Entry*/;
+                }
+                else if (p ==/*${EQ}*/ p.parent/*${GET}*/.right/*${GET}*/) {
+                    p.parent/*${GET}*/.right/*${SET}*/ = null/*${REF_CONSTANT}Entry*/;
+                }
+                p.parent/*${SET}*/ = null/*${REF_CONSTANT}Entry*/;
+            }
+        }
+    }
+
+    /*******************************************************/
+    /** From CLR **/
+    private void fixAfterDeletion( Entry/*${REFTYPE}*/ x ) {
+        while (x !=/*${NEQ}*/ root/*${GET}*/ && colorOf(x) ==/*${EQ}*/ BLACK) {
+            if (x ==/*${EQ}*/ leftOf(parentOf(x))) {
+                Entry/*${REFTYPE}*/ sib = rightOf(parentOf(x));
+
+                if ( colorOf(sib) ==/*${EQ}*/ RED ) {
+                    setColor(sib, BLACK);
+                    setColor(parentOf(x), RED);
+                    rotateLeft(parentOf(x));
+                    sib = rightOf(parentOf(x));
+                }
+
+                if ( colorOf(leftOf(sib)) ==/*${EQ}*/ BLACK &&
+                     colorOf(rightOf(sib)) ==/*${EQ}*/ BLACK ) {
+                    setColor(sib,  RED);
+                    x = parentOf(x);
+                } else {
+                    if ( colorOf(rightOf(sib)) ==/*${EQ}*/ BLACK ) {
+                        setColor(leftOf(sib), BLACK);
+                        setColor(sib, RED);
+                        rotateRight(sib);
+                        sib = rightOf(parentOf(x));
+                    }
+                    setColor(sib, colorOf(parentOf(x)));
+                    setColor(parentOf(x), BLACK);
+                    setColor(rightOf(sib), BLACK);
+                    rotateLeft(parentOf(x));
+                    x = root/*${GET}*/;
+                }
+            } else { // symmetric
+                Entry/*${REFTYPE}*/ sib = leftOf(parentOf(x));
+
+                if ( colorOf(sib) ==/*${EQ}*/ RED ) {
+                    setColor(sib, BLACK);
+                    setColor(parentOf(x), RED);
+                    rotateRight(parentOf(x));
+                    sib = leftOf(parentOf(x));
+                }
+
+                if ( colorOf(rightOf(sib)) ==/*${EQ}*/ BLACK &&
+                     colorOf(leftOf(sib)) ==/*${EQ}*/ BLACK ) {
+                    setColor(sib,  RED);
+                    x = parentOf(x);
+                } else {
+                    if ( colorOf(leftOf(sib)) ==/*${EQ}*/ BLACK ) {
+                        setColor(rightOf(sib), BLACK);
+                        setColor(sib, RED);
+                        rotateLeft(sib);
+                        sib = leftOf(parentOf(x));
+                    }
+                    setColor(sib, colorOf(parentOf(x)));
+                    setColor(parentOf(x), BLACK);
+                    setColor(leftOf(sib), BLACK);
+                    rotateRight(parentOf(x));
+                    x = root/*${GET}*/;
+                }
+            }
+        }
+
+        setColor(x, BLACK);
+    }
+
+/*${INSERT_HELPERS}*/
+
+}

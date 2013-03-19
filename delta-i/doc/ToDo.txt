@@ -1,0 +1,29 @@
+ - Verificar a melhor forma de utilizar threads(Threads x Processos)
+ - Verificar forma de determinar o escalonamento das threads para obter ganhos em delta execution
+ - Verificar forma de melhor utilizar os núcleos existentes em uma máquina multicore
+	- Desenvolver solução que mensure o uso dos cores de um processador e registre esta informação
+ - Identificar pontos ótimos para a relação entre a quantidade de threads, tamanho do array e quantidade de cores.
+ 	- Desenvolver algoritimo que teste diferentes quantidades de threads processando diferentes tamanhos de arrays e registre estas informações
+ - Implementar funções de delta execution utilizando threads em C
+
+
+
+
+
+====================================================================
+ - Identificar e reproduzir ganhos obtidos pelo jSIMD
+ - Criar gráfico que mostre a curva ótima do uso do SIMD em relação ao FOR						Thiago
+ - Implementar outras operações, como and, or, sub, atribuição e operações para um único valorbl
+ - Testar uso do SIMD com compilação realizada por outros compiladores							Adriano
+ - Testar compilação com parâmetros que otimizem o código, especificamente para trabalhar com SSE			Thiago
+ - Testar uso do SIMD em conjunto com FOR
+ - Testar uso em diferentes arquiteturas e sistemas operacionais
+	- Windows 32 Bits
+	- Windows 64 Bits
+	- Ubuntu 11.4 Desktop 64 Bits quad core										Thiago
+	- Ubuntu 11.4 Server 64 Bits quad core
+ - Identificar o motivo para que o uso de SIMD seja melhor ou pior nos casos de teste
+ - Testar uso de threads de alto e baixo nível para melhor aproveitamento de computadores multicore
+ - Analisar benefícios de uso da arquitetura CUDA para melhoria do delta execution
+ - Comparação entre uso do SSE e CUDA para melhoria do delta execution
+	 - Implementação de testes em CUDA

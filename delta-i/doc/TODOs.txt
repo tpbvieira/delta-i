@@ -1,0 +1,13 @@
+- please, write as short as possible TODO messages.  in principle this
+  should be done quickly so one should not forget the context.
+
+- please, use characters that can be read uniformly in any reader.
+  avoid cedilha, til, tabs, etc.
+
+- please, move finished activities to a DONE.txt file.  you can remove
+  these guidelines or move to GUIDE.txt if you will.
+
+- last but not least we should organize the directories better. i
+  tried to locate the C code for the library and Java code I sent to
+  you unsuccessfully.
+

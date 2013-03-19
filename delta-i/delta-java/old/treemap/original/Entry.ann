@@ -1,0 +1,44 @@
+package symexamples.treemap.original/*${PACKAGE}*/;
+
+/*${INSERT_IMPORTS}*/
+
+import symexamples.integer.original.Integer/*${ADJUST_IMPORT}*/;
+
+/***********************************************************
+ *  Entry class
+ ***********************************************************/
+public class Entry/*${IMPLEMENTS}*/ {
+
+    Integer/*${REFTYPE}*/ key = null/*${REF_CONSTANT}Integer*/;
+    private Object/*${REFTYPE}*/ value = null/*${REF_CONSTANT}Object*/;
+    Entry/*${REFTYPE}*/ left = null/*${REF_CONSTANT}Entry*/;
+    Entry/*${REFTYPE}*/ right = null/*${REF_CONSTANT}Entry*/;
+    Entry/*${REFTYPE}*/ parent = null/*${REF_CONSTANT}Entry*/;
+    int/*${INTTYPE}*/ color = TreeMap.BLACK;
+
+/*${INSERT_SPECIAL_CONSTRUCTOR}*/
+
+/*${INSERT_NOARG_CONSTRUCTOR}*/
+
+    Entry( Integer/*${REFTYPE}*/ key, Object/*${REFTYPE}*/ value, Entry/*${REFTYPE}*/ parent ) {
+        this.key = key;
+        this.value = value;
+        this.parent = parent;
+    }
+
+
+    /*******************************************************/
+    public Object/*${REFTYPE}*/ getValue() {
+        return value;
+    }
+
+    /*******************************************************/
+    public Object/*${REFTYPE}*/ setValue( Object/*${REFTYPE}*/ value ) {
+        Object/*${REFTYPE}*/ oldValue = this.value/*${GET}*/;
+        this.value/*${SET}*/ = value;
+        return oldValue;
+    }
+
+/*${INSERT_HELPERS}*/
+
+}

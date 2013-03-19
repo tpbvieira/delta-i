@@ -1,0 +1,52 @@
+<?xml version="1.0"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+	<name>delta-c</name>
+	<url>http://code.google.com/p/delta-i/</url>
+	<groupId>cin</groupId>
+	<artifactId>delta-c</artifactId>
+	<packaging>jar</packaging>
+	<version>0.1</version>
+	<description>delta-c</description>
+
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-jar-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals></goals>
+					</execution>
+				</executions>
+				<configuration>
+					<archive>
+						<manifest>
+							<addClasspath>true</addClasspath>
+							<classpathPrefix>lib</classpathPrefix>
+						</manifest>
+					</archive>				
+				</configuration>
+			</plugin>
+		</plugins>	
+	</build>
+
+<!--  	
+	<reporting>
+		<plugins>
+		</plugins>	
+	</reporting>
+-->
+
+<!--  
+	<dependencies>
+	<dependency>
+		<groupId>javax.portlet</groupId>
+		<artifactId>portlet-api</artifactId>
+		<version>1.0</version>
+	</dependency>
+	</dependencies>
+-->
+  
+</project>

@@ -1,0 +1,21 @@
+package gpl.instrumented;
+import java.util.Iterator;
+
+public class VertexIter {
+	private Iterator iter;
+
+	VertexIter() {
+	} // used for anonymous class
+
+	VertexIter(Graph g) {
+		iter = g.vertices.iterator();
+	}
+
+	public Vertex next() {
+		return (Vertex) iter.next();
+	}
+
+	public boolean hasNext() {
+		return iter.hasNext();
+	}
+}

@@ -1,0 +1,8 @@
+;FILE: cpuId.def
+EXPORTS
+Java_cpuid_cpuIdDetect_sse2IsSupported
+Java_cpuid_cpuIdDetect_sse3IsSupported
+Java_cpuid_cpuIdDetect_ssse3IsSupported
+Java_cpuid_cpuIdDetect_sse41IsSupported
+Java_cpuid_cpuIdDetect_sse42IsSupported
+Java_cpuid_cpuIdDetect_avxIsSupported

@@ -1,0 +1,24 @@
+Mutation testing regained significant force recently as a technique to
+assess the quality of a test suite.  One practical problem of mutation
+testing is the high cost of the analysis.  The cost is proportional to
+the product of the number of test cases and the number of mutants; the
+later can grow quickly with the size of the application.  Despite the
+significant advances in reducing this cost it is still very high.
+Recent experimental data indicates that mutation analysis of large
+applications can take hours even for test suites that run in seconds.
+
+This talk will present the idea of using Delta Execution (DE) to
+optimize Mutation Testing and the recent optimizations in our DE
+implementation to enable this idea.  Conceptually, DE makes it
+possible to execute a test on all mutants, simultaneously.  For that
+it uses a special representation of state that explicitly encodes set
+of individual states.  Each individual state corresponds to a distinct
+mutant.
+
+This work is in collaboration with Thiago Vieira.
+
+
+
+
+
+

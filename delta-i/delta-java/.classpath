@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src-instrumentation"/>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="src-test"/>
+	<classpathentry kind="src" path="src-subjects"/>
+	<classpathentry kind="src" path="src-mutation"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk1.7.0"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+	<classpathentry kind="lib" path="/delta-c/src"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/delta-c"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/javalanche"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

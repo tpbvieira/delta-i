@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<project name="delta-i" default="compile" basedir=".">
+
+	<property name="src" value="src" />
+	<property name="src-instr" value="src-instrumentation" />
+	<property name="src-sub" value="src-subjects" />
+	<property name="src-test" value="src-test" />
+	<property name="build" value="bin" />
+	<property name="lib" value="lib" />
+	<property name="classes" value="${build}/bin" />
+
+	<target name="init">
+		<mkdir dir="${build}" />
+		<mkdir dir="${lib}" />
+	</target>
+
+	<path id="compile.classpath">
+		<fileset dir="${lib}">
+			<include name="**/*.jar" />
+		</fileset>
+		<pathelement location="${classes}" />
+	</path>
+
+	<target name="compile" depends="init">
+		<javac destdir="${build}" >
+			<classpath refid="compile.classpath" />
+		    <src path="${src}" />
+			<src path="${src-instr}" />
+			<src path="${src-sub}" />
+			<src path="${src-test}" />
+			<src path="${src}" />
+		</javac>
+	</target>
+
+</project>

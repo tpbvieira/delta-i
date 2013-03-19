@@ -1,0 +1,197 @@
+\documentclass[10pt]{article}
+
+\input{macros} % macros file
+
+\title{Applying Delta Execution on Mutation Testing}	
+
+\author{Marcelo d'Amorim, David Schuler} % used by \maketitle
+\date{November 9 , 2009}                 % used by \maketitle
+\begin{document}
+\maketitle                               % automatic title!
+
+Two important issues in mutation testing are the time needed to
+execute all mutations and presence of equivalent
+mutations.  \DE{} has the potential to address both of these issues.
+It addresses the first by executing multiple mutations in parallel
+whenever possible. The second issue is addressed by comparing state of 
+mutated and non mutated executions, as the difference between these states
+allows quantify the impact of mutants on state, which can be
+used to prioritize non-equivalent mutations.
+
+\section{Background}
+
+\subsection{Delta Execution}
+
+\DE{}~(\DEA{})~\cite{damorim-tse-2008} provides a way to execute
+programs with sets of states: the interpretation of one operation in
+delta mode potentially reads from (writes to) several individual
+states.  Consider, for illustration, a binary search tree
+implementation with an \CodeIn{add(int)} operation.  The execution of
+the following code fragment in delta mode builds 4 trees
+\emph{simultaneously}.   The braces denote delta objects, i.e., objects that
+merge several different individual values.
+
+\begin{quote}
+\begin{verbatim}
+{bst}.add({1,2,3,4}); {bst}.add({2,3,4,5})
+\end{verbatim}
+\end{quote}
+
+Assume that the \CodeIn{bst} object is initially empty.  The execution
+of this fragment will follow the same execution path and add a child,
+storing values \CodeIn{\{2,3,4,5\}}, to the right of the root node.
+Unfortunately, sometimes it is not possible to follow the same
+execution path.  Consider, for example, the delta object
+\CodeIn{\{0,1,4,5\}} as input to the second call to \CodeIn{add}.  In
+that case, \DEA{} needs to \emph{split} execution: one path results in
+the addition of values \CodeIn{\{0,1\}} to the left of the root node,
+another in the addition of \CodeIn{\{4,5\}} to the right.  After the
+call, \DEA{} needs to \emph{merge} the state sets together.
+
+The initial goal of the technique was to speed up explicit-state model
+checking.  \DEA{} can take advantage of the control flow similarity
+across different states to optimize time.  \DEA{} can also take
+advantage of data similarity for efficient data access: in the case
+above, all four individual states share the \CodeIn{bst} object and
+only one integer suffices to encode the size of all trees.  Very
+important to note is that one execution in delta mode is expensive.
+Split and merge, in particular, are costly operations.  Speedup
+depends on a number of factors.  Specially, the number of states and
+potential for sharing.
+
+\subsection{Mutation Testing}
+Mutation testing assesses the quality of a test suite by inserting
+artificial bugs into a program, and checking whether the test suite
+finds them.  Mutation testing has two issues.  First, the \emph{time
+  needed to check all mutations} --- the test suite has to be run for
+every mutation. Second, the inability to automatically identify
+\emph{equivalent mutations}, which are mutations that change the
+syntax of the program but do not change its semantics.
+
+
+\section{Combining Delta Execution and Mutation Testing}
+
+A mutant schemata is a representation of the program that includes all mutants.
+It uses a special\Comment{int? A Property => String} variable to identify the
+enabled mutant. We propose to run each test on the mutant schemata with \DE{}.
+Conceptually, that corresponds to running a test on all mutants simultaneously.
+
+For illustration, suppose the original program uses the expression
+\CodeIn{x > y} and that the mutant schemata includes a mutant for that
+expression that replaces \CodeIn{>} with \CodeIn{<=}.  Additionally,
+consider that the mutant schemata contains 5 mutants and the mutant
+above corresponds to mutant number 3.  \DE{} of one test on the mutant
+schemata will have 6 individual states: 1 corresponding to the
+original program and 5 for the mutants.  The evaluation of the
+expression above on the mutant schemata with values \CodeIn{[1]} for
+\CodeIn{x} and \CodeIn{[2,2,2,2,2,3]} for \CodeIn{y} results in
+\CodeIn{[f,f,f,t,f,f]}.  Few notes: (i) we use brackets to highlight
+the importance of indexing state ids, (ii) the value 0 indexes the
+original program state, (iii) the value of \CodeIn{y} was already
+infested by mutation 5 at the expression evaluation (see value 3), and
+(iv) a mutation does not necessarily require split.
+
+\subsection{Goals}
+
+\noindent\textbf{Speed up Mutation Testing.}  
+Delta Execution can potentially execute several mutations in parallel.
+In principle, speedup depends on the number of mutations per test and
+potential for sharing data (and consequently control flow).
+Informally, a one-state execution in delta mode is slower than a
+standard execution and a multi-state execution in delta mode is very
+likely slower if no sharing is observed.  A potential speedup to
+explore is to ignore states associated to mutants with no observed
+impact.  \Comment{please check if this still makes
+  sense. -M. PART1:Therefore, the state will be split for every
+  mutation, as the mutated and unmutated code is executed on the
+  current state.  A potential speed up are states that can be merged
+  again, e.g the mutation did not affect the program
+  state. Furthermore the execution that happens before a mutation does
+  not have to be repeated for every mutation.  PART2:How does delta
+  execution deal with state derivations? E.g. a mutated execution
+  takes different a control flow path than the normal execution.  PART
+  3:How would the split of states at mutations be implemented? --M
+  paragraph still makes sense --DS}\\
+
+\noindent\textbf{Measure Impact.}
+The impact of a mutation on state is helpful to improve a test
+suite~\cite{schuler-issta-2009}.\Comment{please, let me know if there
+  is other goal. -M} To that end, one can compare original and
+individual state differences across one delta state.  We conjecture
+that the higher the difference between non-mutated and mutated states
+the higher the chance to observe the change with a test
+execution.\Comment{don't understand this sentence.  thought that state
+  change implies semantic changes. do you mean observable change?
+  change in control flow? -M Yes, I meant an observable
+  change. E.g. The program can have different state at some point but
+  produces the same result, or only non-accessible values are changed
+  that do not affect the result.-DS} Furthermore, the impact can
+provide hints on how to improve the test suite. For example, one can
+use information of state difference reachable from a test to augment
+that test with state assertions.  \Comment{this is really nice! -M}\\
+
+\noindent\textbf{Detect equivalent executions.} \DEA{} expresses one state for
+each mutant plus one state for the original program. It is therefore feasible to
+compare states, after the activation of a mutation and at the end of a run. If
+there is no difference between the states, this suggests that either the
+mutation is equivalent or the input data was not chosen carefully enough.
+\Comment{careful: I guess the mutation can be
+  activated several times.}\Comment{i guess the former approach also
+  has the same limitations.  the quality of daikon invariant is
+  limited by the  quality of operational profiles.}\\
+
+\Comment{i guess we need to make sure the mutation is also
+  unreachable. -M}
+
+\Comment{I think it will not be feasible to prove that a mutation is
+  equivalent since we only know that there is no state change for the
+  input data provided by the test. There could exist other inputs that
+  cause a state change.  However it might be a good indicator of
+  equivalence. -D}
+
+\Comment{i guess my comment was misplaced and confusing.  it was not
+  about finding a mutant equivalent in the general case.  but in the
+  case of a specific test.  that could help to optimize execution, not
+  to rule out the mutant. -M}
+
+\noindent\textbf{Partition Mutations.}
+\sloppy Similarity of impact is a criteria to partition mutants:
+mutations that end up in similar states, have similar effects in the
+program.  One can conjecture that one test might detect all similar
+mutations or none. This information is valuable to guide a programmer
+in the improvement of a test suite.  He only
+needs to focus on one representative of each partition.\\
+    
+\section{Concrete Steps}
+\begin{itemize}
+\item Apply delta execution on mutation testing.  \DEA{} has two
+  implementations~\cite{damorim-tse-2008}: one that operates on JPF
+  state and another in Java state.  The initial Java implementation
+  used an Eclipse plugin to instrument code: user needs to select each
+  compilation unit for instrumentation.  Justification of using
+  Eclipse was re-use of standard refactorings.  Recent updates: batch
+  of instrumentation visitors (using independent parser),
+  simplification of infra-structure (some operations used in
+  state-space exploration are unnecessary in mutation), cleanup and
+  documentation.  In addition, current framework needs to be extended
+  to support neglected operations: (i) native code, and (ii)
+  exceptions raised with data access (e.g., arithmetic exception and
+  null pointer exception).  Justification for these missing pieces:
+  TSE paper focused on speedup.
+
+  \Comment{should we comment about current status of implementation
+    here?  -M Yes, I would suggest so --DS}
+\item Measure speed up improvements
+\item Compare different states using the delta state.
+\end{itemize}
+
+\bibliographystyle{abbrv}
+\bibliography{testing}
+
+\end{document}
+% End of document.
+
+
+
+% LocalWords:  bst ints multi david unmutated DS daikon JPF plugin refactorings
+% LocalWords:  dereference TSE

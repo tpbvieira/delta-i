@@ -1,0 +1,4 @@
+;FILE: NativeLibrary.def
+EXPORTS
+Java_simdMapper_NativeLibrary_Execute
+
