@@ -1,0 +1,2 @@
+ - Fix erro when java.net native method is used for SocketSubject
+ - Represents constructors oj objects ??

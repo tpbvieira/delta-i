@@ -1,0 +1,9 @@
+target = drivers.socket.SocketDriver
+
+listener=gov.nasa.jpf.listener.PreciseRaceDetector,listener.SearchFinishedListener
+
+classpath=bin
+
+report.console.property_violation=error,trace
+
+vm.storage.class = nil
